@@ -1,0 +1,98 @@
+local player = game.Players.LocalPlayer
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "MoneyLuckGui"
+gui.Parent = player:WaitForChild("PlayerGui")
+gui.ResetOnSpawn = false
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 260, 0, 220)
+frame.Position = UDim2.new(0.3, 0, 0.3, 0)
+frame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+frame.Active = true
+frame.Draggable = true
+frame.Parent = gui
+
+local framecorner = Instance.new("UICorner")
+framecorner.Parent = frame
+framecorner.CornerRadius = UDim.new(0, 15)
+
+local label = Instance.new("TextLabel")
+label.Size = UDim2.new(0, 260, 0, 25)
+label.Position = UDim2.new(0, 0, 0, 0)
+label.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+label.TextColor3 = Color3.fromRGB(255, 255, 255)
+label.Text = "GUI"
+label.Font = Enum.Font.SourceSansBold
+label.TextSize = 18
+label.Parent = frame
+
+local labelcorner = Instance.new("UICorner")
+labelcorner.Parent  = label
+labelcorner.CornerRadius = UDim.new(0, 15)
+
+local moneyBox = Instance.new("TextBox")
+moneyBox.Size = UDim2.new(0, 220, 0, 40)
+moneyBox.Position = UDim2.new(0.5, -110, 0, 35)
+moneyBox.PlaceholderText = "Enter money amount"
+moneyBox.Text = ""
+moneyBox.Parent = frame
+
+local mbcorner = Instance.new("UICorner")
+mbcorner.Parent = moneyBox
+mbcorner.CornerRadius = UDim.new(0, 10)
+
+local moneyButton = Instance.new("TextButton")
+moneyButton.Size = UDim2.new(0, 220, 0, 40)
+moneyButton.Position = UDim2.new(0.5, -110, 0, 80)
+moneyButton.Text = "Give Money"
+moneyButton.Parent = frame
+
+local mcorner = Instance.new("UICorner")
+mcorner.Parent = moneyButton
+mcorner.CornerRadius = UDim.new(0, 10)
+
+local luckBox = Instance.new("TextBox")
+luckBox.Size = UDim2.new(0, 220, 0, 40)
+luckBox.Position = UDim2.new(0.5, -110, 0, 125)
+luckBox.PlaceholderText = "Enter luck amount"
+luckBox.Text = ""
+luckBox.Parent = frame
+
+local lbcorner = Instance.new("UICorner")
+lbcorner.Parent = luckBox
+lbcorner.CornerRadius = UDim.new(0, 10)
+
+local luckButton = Instance.new("TextButton")
+luckButton.Size = UDim2.new(0, 220, 0, 40)
+luckButton.Position = UDim2.new(0.5, -110, 0, 170)
+luckButton.Text = "Give Luck"
+luckButton.Parent = frame
+
+local lcorner = Instance.new("UICorner")
+lcorner.Parent = luckButton
+lcorner.CornerRadius = UDim.new(0, 10)
+
+local MoneyEvent = ReplicatedStorage:WaitForChild("ClaimReward")
+local LuckEvent = ReplicatedStorage:WaitForChild("LuckPurchaseEvent")
+
+moneyButton.MouseButton1Click:Connect(function()
+	local amount = tonumber(moneyBox.Text)
+	if amount then
+		MoneyEvent:FireServer(amount)
+		moneyBox.Text = "Success!"
+		wait(1)
+		moneyBox.Text = ""
+	end
+end)
+
+luckButton.MouseButton1Click:Connect(function()
+	local amount = tonumber(luckBox.Text)
+	if amount then
+		LuckEvent:FireServer(amount)
+		luckBox.Text = "Success!"
+		wait(1)
+		luckBox.Text = ""
+	end
+end)
